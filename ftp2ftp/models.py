@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+
 import io
 import os
 from ftplib import FTP, error_perm
@@ -13,9 +14,14 @@ class Transfer(object):
                               acct=src_acct, timeout=timeout)
         self.recv_servers = {}
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *args):
+        self.close()
+
     def add_receiver_server(self, host, user, passwd, acct):
-        """
-        Adding new server to receive files
+        """Adding new server to receive files
 
         :param host: hostname of server
         :type host: str
@@ -29,8 +35,7 @@ class Transfer(object):
         self.recv_servers['host'] = FTP(host, user, passwd, acct)
 
     def remove_receiver_server(self, host):
-        """
-        Removing server from recipients
+        """Removing server from recipients
 
         :param host: host name
         :type host: str
@@ -42,8 +47,7 @@ class Transfer(object):
             raise Exception('There is no such host')
 
     def get_file_binary(self, path):
-        """
-        Getting file in bytearray format
+        """Getting file in bytearray format
 
         :param path: path to file
         :type path: str
@@ -55,13 +59,12 @@ class Transfer(object):
         return output
 
     def upload_file(self, path, byte_arr):
-        """
-        Uploading file to recipient servers from byte array
+        """Uploading file to recipient servers from byte array
 
         :param path: path to upload
         :type path: str
         :param byte_arr: data
-        :type byte_arr: bytearray
+        :type byte_arr: io.BytesIO
         """
         dirname, filename = os.path.split(path)
         for server in self.recv_servers.values():
@@ -77,8 +80,7 @@ class Transfer(object):
                 server.storbinary('STOR {}'.format(filename), byte_arr)
 
     def transfer(self, path, dest_path=None):
-        """
-        Transferring file to recipient servers
+        """Transferring file to recipient servers
 
         :param path: path of file to transfer
         :type path: str
@@ -92,9 +94,7 @@ class Transfer(object):
         self.upload_file(dest_path, io.BytesIO(data))
 
     def close(self):
-        """
-        Closing connection for all related servers
-        """
+        """Closing connection for all related servers"""
         self.src_server.close()
         for server in self.recv_servers.values():
             server.close()
