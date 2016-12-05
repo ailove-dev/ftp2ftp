@@ -6,7 +6,7 @@ from ftplib import FTP, error_perm
 from socket import _GLOBAL_DEFAULT_TIMEOUT
 
 
-class Transfer(object):
+class Tunnel(object):
     def __init__(self, src_host, src_user, src_passwd, src_acct,
                  timeout=_GLOBAL_DEFAULT_TIMEOUT):
 
@@ -32,7 +32,7 @@ class Transfer(object):
         :param recv_acct: accounting information
         :type recv_acct: str
         """
-        self.recv_servers['host'] = FTP(host, user, passwd, acct)
+        self.recv_servers['host'] = FTP(recv_host, recv_user, recv_passwd, recv_acct)
 
     def remove_receiver_server(self, host):
         """Removing server from recipients
