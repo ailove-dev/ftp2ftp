@@ -1,0 +1,33 @@
+# -*- coding: utf-8 -*-
+
+from . import models
+
+
+def simple_transfer(src_host, recv_host, **kwargs):
+    """Transfer between 2 ftp servers
+
+    :param src_host: hostname of server from which data sends
+    :type src_host: str
+    :param recv_host: hostname of server that receives data
+    :type recv_host: str
+    :param src_user: username for sender server
+    :type src_user: str
+    :param src_passwd: user's password for sender server
+    :type src_passwd: str
+    :param src_acct: accounting information for sender server
+    :type src_acct: str
+    :param recv_host: hostname of server from which data sends
+    :type recv_host: str
+    :param recv_host: hostname of server that receives data
+    :type recv_host: str
+    :param recv_user: username for sender server
+    :type recv_user: str
+    :param recv_passwd: user's password for sender server
+    :type recv_passwd: str
+    :param recv_acct: accounting information for sender server
+    :type recv_acct: str
+    :rtype: ftp2ftp.Transfer
+    """
+    transfer = models.Transfer(src_host, **kwargs)
+    transfer.add_receiver_server(recv_host, **kwargs)
+    return transfer

@@ -20,17 +20,17 @@ class Transfer(object):
     def __exit__(self, *args):
         self.close()
 
-    def add_receiver_server(self, host, user, passwd, acct):
+    def add_receiver_server(self, recv_host, recv_user, recv_passwd, recv_acct):
         """Adding new server to receive files
 
-        :param host: hostname of server
-        :type host: str
-        :param user: username for connecting
-        :type user: str
-        :param passwd: user's password
-        :type passwd: str
-        :param acct: accounting information
-        :type acct: str
+        :param recv_host: hostname of server
+        :type recv_host: str
+        :param recv_user: username for connecting
+        :type recv_user: str
+        :param recv_passwd: user's password
+        :type recv_passwd: str
+        :param recv_acct: accounting information
+        :type recv_acct: str
         """
         self.recv_servers['host'] = FTP(host, user, passwd, acct)
 
