@@ -79,18 +79,18 @@ class Transfer(object):
                     server.cwd(dirname)
                 server.storbinary('STOR {}'.format(filename), byte_arr)
 
-    def transfer(self, path, dest_path=None):
+    def transfer(self, file_path, dest_path=None):
         """Transferring file to recipient servers
 
-        :param path: path of file to transfer
-        :type path: str
+        :param file_path: path of file to transfer
+        :type file_path: str
         :param dest_path: transfer path destination
         :type dest_path: str
         """
         if not dest_path:
             # set destination path to path of file if it's not provided
-            dest_path = path
-        data = self.get_file_binary(path)
+            dest_path = file_path
+        data = self.get_file_binary(file_path)
         self.upload_file(dest_path, io.BytesIO(data))
 
     def close(self):
