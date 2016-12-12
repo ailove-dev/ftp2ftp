@@ -68,7 +68,7 @@ class Tunnel(object):
         """
         dirname, filename = os.path.split(path)
         for server in self.recv_servers.values():
-            if dirname:
+            if dirname and dirname != server.pwd():
                 # if path contains folder we need to change directory to it
                 try:
                     # try to change active directory
